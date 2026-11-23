@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI WaitLess City</title>
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+}
+body{
+    background:#07111f;
+    color:#eaf1ff;
+}
+/* ================= HEADER ================= */
+header{
+    height:72px;
+    padding:0 5%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#0b1728;
+    border-bottom:1px solid #20334f;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+.logo{
+    font-size:24px;
+    font-weight:bold;
+}
+.logo span{
+    color:#4ee6a4;
+}
+.system{
+    padding:8px 14px;
+    border-radius:20px;
+    background:#102b2a;
+    color:#55e5a5;
+    font-size:12px;
+}
+/* ================= HERO ================= */
+.hero{
+    padding:60px 7%;
+    background:
+    radial-gradient(circle at 80% 20%,#174b62,transparent 30%),
+    linear-gradient(135deg,#0a1c34,#102c5c);
+}
+.hero h1{
+    font-size:46px;
+    max-width:800px;
+    line-height:1.15;
+}
+.hero h1 span{
+    color:#55e6a5;
+}
+.hero p{
+    margin-top:18px;
+    max-width:780px;
+    line-height:1.7;
+    color:#b9c9df;
+}
+.hero-tag{
+    display:inline-block;
+    margin-bottom:18px;
+    padding:7px 13px;
+    border:1px solid #326181;
+    border-radius:20px;
+    color:#72dfff;
+    font-size:12px;
+}
+/* ================= CONTAINER ================= */
+.container{
+    width:90%;
+    max-width:1400px;
+    margin:30px auto;
+}
+/* ================= CARDS ================= */
+.card{
+    background:#0c192b;
+    border:1px solid #1d3048;
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:22px;
+    box-shadow:0 10px 30px rgba(0,0,0,.18);
+}
+.section-title{
+    margin-bottom:20px;
+}
+.section-title h2{
+    font-size:22px;
+}
+.section-title p{
+    margin-top:6px;
+    color:#8497b2;
+    font-size:14px;
+}
+/* ================= CONTROL ================= */
+.control-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr auto;
+    gap:14px;
+}
+select,
+input{
+    background:#101f33;
+    border:1px solid #29415f;
+    color:white;
+    padding:14px;
+    border-radius:10px;
+    outline:none;
+}
+button{
+    background:#3568e8;
+    color:white;
+    border:none;
+    padding:14px 20px;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+}
+button:hover{
+    transform:translateY(-2px);
+    background:#4678f2;
+}
+/* ================= KPI ================= */
+.kpis{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:14px;
+    margin-bottom:22px;
+}
+.kpi{
+    background:#0c192b;
+    border:1px solid #1d3048;
+    padding:20px;
+    border-radius:15px;
+}
+.kpi small{
+    color:#8497b2;
+}
+.kpi h2{
+    margin-top:9px;
+    font-size:27px;
+}
+.green{
+    color:#55e6a5;
+}
+.orange{
+    color:#ffc65c;
+}
+.red{
+    color:#ff6973;
+}
+/* ================= CITY ================= */
+.city-grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:20px;
+}
+.map{
+    height:420px;
+    background:
+    linear-gradient(90deg,transparent 48%,#172c43 49%,#172c43 51%,transparent 52%),
+    linear-gradient(0deg,transparent 48%,#172c43 49%,#172c43 51%,transparent 52%),
+    #091626;
+    border-radius:18px;
+    position:relative;
+    overflow:hidden;
+    border:1px solid #1d3048;
+}
+.map:after{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:
+    linear-gradient(30deg,transparent 48%,#142b43 49%,#142b43 51%,transparent 52%);
+    opacity:.7;
+}
+.pin{
+    position:absolute;
+    z-index:2;
+    padding:12px 15px;
+    background:#101f33;
+    border:1px solid #304763;
+    border-radius:12px;
+    font-size:12px;
+    box-shadow:0 5px 20px rgba(0,0,0,.4);
+}
+.pin b{
+    display:block;
+    margin-bottom:5px;
+}
+.pin.green{
+    border-bottom:3px solid #55e6a5;
+}
+.pin.orange{
+    border-bottom:3px solid #ffc65c;
+}
+.pin.red{
+    border-bottom:3px solid #ff6973;
+}
+.p1{
+    top:15%;
+    left:13%;
+}
+.p2{
+    top:18%;
+    right:12%;
+}
+.p3{
+    bottom:18%;
+    left:12%;
+}
+.p4{
+    bottom:17%;
+    right:13%;
+}
+.city-status{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+.location-card{
+    background:#101f33;
+    border:1px solid #263d59;
+    border-radius:12px;
+    padding:17px;
+}
+.location-card{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.location-card small{
+    color:#8295ae;
+}
+/* ================= AI DETECTION ================= */
+.ai-engine{
+    display:none;
+    border:1px solid #315fd4;
+    background:
+    radial-gradient(circle at 90% 10%,#18376a,transparent 30%),
+    #0c192b;
+}
+.ai-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+.ai-title{
+    font-size:22px;
+    color:#6fa0ff;
+    font-weight:bold;
+}
+.ai-live{
+    background:#102d2a;
+    color:#55e6a5;
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:11px;
+}
+/* ================= PROBLEM ================= */
+.problem{
+    background:#21161a;
+    border:1px solid #65323a;
+    padding:20px;
+    border-radius:14px;
+    margin-bottom:15px;
+}
+.problem h3{
+    color:#ff6973;
+    margin-bottom:10px;
+}
+.problem p{
+    color:#c6afaf;
+    line-height:1.6;
+}
+/* ================= SOLUTION ================= */
+.solution{
+    background:#10261f;
+    border:1px solid #285f4b;
+    padding:22px;
+    border-radius:14px;
+}
+.solution h3{
+    color:#55e6a5;
+    margin-bottom:15px;
+}
+.solution-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:13px;
+}
+.solution-box{
+    background:#0b1b18;
+    border:1px solid #244a3d;
+    padding:16px;
+    border-radius:12px;
+}
+.solution-box b{
+    display:block;
+    margin-bottom:7px;
+    color:#dce9e4;
+}
+.solution-box span{
+    color:#94b3a7;
+    font-size:13px;
+    line-height:1.5;
+}
+/* ================= IMPACT ================= */
+.impact{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-top:16px;
+}
+.impact-box{
+    background:#101f33;
+    padding:18px;
+    border-radius:12px;
+    text-align:center;
+}
+.impact-box small{
+    color:#8295ae;
+}
+.impact-box strong{
+    display:block;
+    margin-top:8px;
+    font-size:24px;
+}
+/* ================= COUNTERS ================= */
+.counter-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+}
+.counter{
+    background:#101f33;
+    border:1px solid #263d59;
+    border-radius:15px;
+    padding:20px;
+}
+.counter.best{
+    border:2px solid #55e6a5;
+    background:#0d211d;
+}
+.counter-top{
+    display:flex;
+    justify-content:space-between;
+}
+.badge{
+    padding:5px 9px;
+    border-radius:15px;
+    font-size:10px;
+    font-weight:bold;
+}
+.low{
+    background:#14382e;
+    color:#55e6a5;
+}
+.medium{
+    background:#3a2e16;
+    color:#ffc65c;
+}
+.high{
+    background:#3d1c22;
+    color:#ff6973;
+}
+.people{
+    font-size:31px;
+    font-weight:bold;
+    margin:18px 0 8px;
+}
+.progress{
+    height:7px;
+    background:#172a41;
+    border-radius:10px;
+    overflow:hidden;
+    margin:12px 0;
+}
+.bar{
+    height:100%;
+    background:#3568e8;
+}
+.counter p{
+    margin-top:8px;
+    font-size:13px;
+    color:#9cafc7;
+}
+/* ================= WHAT IF ================= */
+.whatif{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+.slider-area{
+    background:#101f33;
+    padding:20px;
+    border-radius:14px;
+}
+.slider-area input{
+    width:100%;
+    margin:20px 0;
+}
+.what-result{
+    background:#10261f;
+    border:1px solid #285f4b;
+    padding:20px;
+    border-radius:14px;
+}
+.what-result h3{
+    color:#55e6a5;
+    margin-bottom:10px;
+}
+.what-result p{
+    margin-top:9px;
+    color:#a8bdba;
+}
+/* ================= ACTIVITY ================= */
+.activity-item{
+    display:flex;
+    justify-content:space-between;
+    padding:15px 0;
+    border-bottom:1px solid #1c2c40;
+    font-size:14px;
+}
+.activity-item span:last-child{
+    color:#70839c;
+}
+/* ================= TOKEN ================= */
+.token{
+    display:none;
+    text-align:center;
+    padding:30px;
+    background:#0f2035;
+    border:1px solid #315fd4;
+    border-radius:18px;
+}
+.token-number{
+    font-size:60px;
+    color:#6fa0ff;
+    font-weight:bold;
+    margin:15px;
+}
+/* ================= FOOTER ================= */
+footer{
+    text-align:center;
+    padding:35px;
+    background:#050d18;
+    color:#70839c;
+    margin-top:50px;
+    line-height:1.8;
+}
+footer b{
+    color:white;
+}
+/* ================= RESPONSIVE ================= */
+@media(max-width:1000px){
+    .kpis{
+        grid-template-columns:repeat(2,1fr);
+    }
+    .city-grid,
+    .whatif{
+        grid-template-columns:1fr;
+    }
+    .counter-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+@media(max-width:650px){
+    .hero h1{
+        font-size:34px;
+    }
+    .container{
+        width:94%;
+    }
+    .control-grid,
+    .kpis,
+    .counter-grid,
+    .solution-grid,
+    .impact{
+        grid-template-columns:1fr;
+    }
+    .map{
+        height:320px;
+    }
+}
+</style>
+</head>
+<body>
+<!-- ================= HEADER ================= -->
+<header>
+<div class="logo">
+AI <span>WaitLess</span> City
+</div>
+<div class="system">
+● AI SYSTEM ONLINE
+</div>
+</header>
+<!-- ================= HERO ================= -->
+<section class="hero">
+<div class="hero-tag">
+URBAN QUEUE INTELLIGENCE PLATFORM
+</div>
+<h1>
+Don't Just Predict the Queue.<br>
+<span>Fix It Before It Grows.</span>
+</h1>
+<p>
+AI WaitLess City continuously analyses citizen demand,
+service capacity, queue length and counter efficiency to
+predict congestion and automatically recommend the most
+effective intervention.
+</p>
+</section>
+<div class="container">
+<!-- ================= CONTROL ================= -->
+<div class="card">
+<div class="section-title">
+<h2>🎯 AI Service Optimizer</h2>
+<p>
+Select a public service. The AI will detect the problem,
+predict future congestion and generate an actionable solution.
+</p>
+</div>
+<div class="control-grid">
+<select id="location">
+<option value="">
+Select Location
+</option>
+<option value="City Hospital">
+🏥 City Hospital
+</option>
+<option value="Railway Station">
+🚆 Railway Station
+</option>
+<option value="Government Office">
+🏛 Government Office
+</option>
+<option value="Public Service Bank">
+🏦 Public Service Bank
+</option>
+</select>
+<select id="service">
+<option value="">
+Select Service
+</option>
+<option>
+Registration
+</option>
+<option>
+Billing
+</option>
+<option>
+Document Verification
+</option>
+<option>
+Ticket Booking
+</option>
+<option>
+Certificate Service
+</option>
+</select>
+<select id="priority">
+<option value="normal">
+Normal Priority
+</option>
+<option value="priority">
+Priority Citizen
+</option>
+<option value="emergency">
+Emergency
+</option>
+</select>
+<button onclick="runAI()">
+🧠 Run AI Analysis
+</button>
+</div>
+</div>
+<!-- ================= KPIs ================= -->
+<div class="kpis">
+<div class="kpi">
+<small>👥 Citizens Waiting</small>
+<h2 id="people">--</h2>
+</div>
+<div class="kpi">
+<small>🪟 Active Counters</small>
+<h2 id="counters">--</h2>
+</div>
+<div class="kpi">
+<small>⏱ Current Wait</small>
+<h2 id="wait">--</h2>
+</div>
+<div class="kpi">
+<small>🔮 Predicted Wait</small>
+<h2 id="predicted">--</h2>
+</div>
+<div class="kpi">
+<small>⚡ Potential Time Saved</small>
+<h2 class="green" id="saved">--</h2>
+</div>
+</div>
+<!-- ================= CITY ================= -->
+<div class="card">
+<div class="section-title">
+<h2>🌐 City Digital Twin</h2>
+<p>
+Live overview of queue conditions across public service locations.
+</p>
+</div>
+<div class="city-grid">
+<div class="map">
+<div class="pin green p1">
+<b>🏥 Hospital</b>
+LOW • 12 people
+</div>
+<div class="pin orange p2">
+<b>🏦 Bank</b>
+MODERATE • 24 people
+</div>
+<div class="pin red p3">
+<b>🚆 Railway</b>
+HIGH • 48 people
+</div>
+<div class="pin orange p4">
+<b>🏛 Govt Office</b>
+MODERATE • 31 people
+</div>
+</div>
+<div class="city-status">
+<div class="location-card">
+<div>
+<b>🏥 City Hospital</b><br>
+<small>Queue stable</small>
+</div>
+<span class="green">LOW</span>
+</div>
+<div class="location-card">
+<div>
+<b>🚆 Railway Station</b><br>
+<small>Congestion predicted</small>
+</div>
+<span class="red">HIGH</span>
+</div>
+<div class="location-card">
+<div>
+<b>🏛 Government Office</b><br>
+<small>Capacity available</small>
+</div>
+<span class="orange">MEDIUM</span>
+</div>
+<div class="location-card">
+<div>
+<b>🏦 Public Bank</b><br>
+<small>Flow increasing</small>
+</div>
+<span class="orange">MEDIUM</span>
+</div>
+</div>
+</div>
+</div>
+<!-- ================= AI ENGINE ================= -->
+<div class="card ai-engine" id="aiEngine">
+<div class="ai-header">
+<div class="ai-title">
+🧠 AI Decision & Intervention Engine
+</div>
+<div class="ai-live">
+● REAL-TIME OPTIMIZATION
+</div>
+</div>
+<!-- PROBLEM -->
+<div class="problem">
+<h3>
+🚨 Problem Detected
+</h3>
+<p id="problemText">
+</p>
+</div>
+<!-- SOLUTION -->
+<div class="solution">
+<h3>
+💡 AI Generated Solution
+</h3>
+<div class="solution-grid">
+<div class="solution-box">
+<b>🎯 Counter Allocation</b>
+<span id="solutionCounter">
+</span>
+</div>
+<div class="solution-box">
+<b>🔄 Citizen Redirection</b>
+<span id="solutionRedirect">
+</span>
+</div>
+<div class="solution-box">
+<b>👨‍💼 Resource Optimization</b>
+<span id="solutionStaff">
+</span>
+</div>
+</div>
+<div class="impact">
+<div class="impact-box">
+<small>Before</small>
+<strong id="before">
+-- min
+</strong>
+</div>
+<div class="impact-box">
+<small>After AI Action</small>
+<strong class="green" id="after">
+-- min
+</strong>
+</div>
+<div class="impact-box">
+<small>Reduction</small>
+<strong class="green" id="reduction">
+--%
+</strong>
+</div>
+<div class="impact-box">
+<small>AI Confidence</small>
+<strong id="confidence">
+--%
+</strong>
+</div>
+</div>
+</div>
+<br>
+<button onclick="generateToken()">
+🎫 Generate Smart Token
+</button>
+</div>
+<!-- ================= COUNTERS ================= -->
+<div class="card">
+<div class="section-title">
+<h2>🪟 Intelligent Counter Allocation</h2>
+<p>
+AI ranks counters based on queue, service rate and efficiency.
+</p>
+</div>
+<div class="counter-grid" id="counterGrid">
+<p>
+Run AI analysis to activate counters.
+</p>
+</div>
+</div>
+<!-- ================= WHAT IF ================= -->
+<div class="card">
+<div class="section-title">
+<h2>🔮 What-If AI Simulator</h2>
+<p>
+Test what happens if additional citizens arrive.
+</p>
+</div>
+<div class="whatif">
+<div class="slider-area">
+<b>Additional Citizens</b>
+<input
+type="range"
+id="extraPeople"
+min="0"
+max="50"
+value="10"
+oninput="simulateWhatIf()"
+>
+<h2>
+<span id="extraValue">10</span>
+citizens
+</h2>
+</div>
+<div class="what-result">
+<h3>
+🤖 AI Response
+</h3>
+<p id="whatPrediction">
+AI will calculate the impact.
+</p>
+<p id="whatSolution">
+</p>
+<p id="whatImpact">
+</p>
+</div>
+</div>
+</div>
+<!-- ================= TOKEN ================= -->
+<div class="token" id="tokenCard">
+<h2>
+🎫 Smart Virtual Token
+</h2>
+<div class="token-number" id="tokenNumber">
+WL-000
+</div>
+<p id="tokenInfo">
+</p>
+<br>
+<button onclick="cancelToken()">
+Cancel Token
+</button>
+</div>
+<!-- ================= ACTIVITY ================= -->
+<div class="card">
+<div class="section-title">
+<h2>🔔 AI Activity Stream</h2>
+</div>
+<div class="activity-item">
+<span>🤖 AI optimized Counter allocation</span>
+<span>Just now</span>
+</div>
+<div class="activity-item">
+<span>🚨 Congestion threshold evaluated</span>
+<span>1 min ago</span>
+</div>
+<div class="activity-item">
+<span>🔮 Demand prediction updated</span>
+<span>2 min ago</span>
+</div>
+<div class="activity-item">
+<span>🔄 Citizens redirected automatically</span>
+<span>3 min ago</span>
+</div>
+</div>
+</div>
+<footer>
+<b>AI WaitLess City</b><br>
+Predictive Urban Queue Intelligence & Optimization<br>
+Detect • Predict • Decide • Act • Measure
+</footer>
+<script>
+/* =========================================================
+GLOBAL STATE
+========================================================= */
+let counters = [];
+let selectedCounter = null;
+let currentLocation = "";
+let currentService = "";
+let currentWait = 0;
+let predictedWait = 0;
+/* =========================================================
+CREATE REALISTIC COUNTERS
+========================================================= */
+function createCounters(){
+    counters = [];
+    let number =
+        Math.floor(Math.random()*3)+4;
+    for(let i=1;i<=number;i++){
+        let people =
+            Math.floor(Math.random()*18)+3;
+        let serviceTime =
+            Math.floor(Math.random()*5)+3;
+        let efficiency =
+            Math.floor(Math.random()*12)+85;
+        let serviceRate =
+            efficiency / serviceTime;
+        let wait =
+            people / serviceRate;
+        counters.push({
+            id:i,
+            people:people,
+            serviceTime:serviceTime,
+            efficiency:efficiency,
+            serviceRate:serviceRate,
+            wait:wait,
+            score:0
+        });
+    }
+}
+/* =========================================================
+AI ANALYSIS
+========================================================= */
+function runAI(){
+    currentLocation =
+        document.getElementById("location").value;
+    currentService =
+        document.getElementById("service").value;
+    if(!currentLocation ||
+       !currentService){
+        alert(
+        "Please select Location and Service."
+        );
+        return;
+    }
+    createCounters();
+    /* AI SCORE */
+    counters.forEach(c => {
+        c.score =
+            (c.people * 0.55)
+            +
+            (c.serviceTime * 0.25)
+            -
+            (c.efficiency * 0.20);
+    });
+    counters.sort(
+        (a,b)=>a.score-b.score
+    );
+    selectedCounter =
+        counters[0];
+    /* Dashboard */
+    let totalPeople =
+        counters.reduce(
+            (sum,c)=>sum+c.people,0
+        );
+    currentWait =
+        Math.max(
+            ...counters.map(c=>c.wait)
+        );
+    /*
+       Demand prediction:
+       current demand + estimated arrivals
+    */
+    let futureDemand =
+        totalPeople +
+        Math.floor(Math.random()*15)+8;
+    let avgRate =
+        counters.reduce(
+            (sum,c)=>sum+c.serviceRate,0
+        );
+    predictedWait =
+        futureDemand / avgRate;
+    let saved =
+        Math.max(
+            2,
+            Math.ceil(
+                predictedWait -
+                selectedCounter.wait
+            )
+        );
+    document.getElementById("people")
+        .innerText = totalPeople;
+    document.getElementById("counters")
+        .innerText = counters.length;
+    document.getElementById("wait")
+        .innerText =
+        Math.ceil(currentWait)+" min";
+    document.getElementById("predicted")
+        .innerText =
+        Math.ceil(predictedWait)+" min";
+    document.getElementById("saved")
+        .innerText =
+        saved+" min";
+    displayCounters();
+    generateProblemSolution(
+        totalPeople,
+        futureDemand,
+        saved
+    );
+    simulateWhatIf();
+}
+/* =========================================================
+PROBLEM + SOLUTION ENGINE
+========================================================= */
+function generateProblemSolution(
+    totalPeople,
+    futureDemand,
+    saved
+){
+    let busiest =
+        counters.reduce(
+            (a,b)=>
+            a.people>b.people?a:b
+        );
+    let secondBest =
+        counters
+        .filter(
+            c=>c.id!==selectedCounter.id
+        )
+        .sort(
+            (a,b)=>a.score-b.score
+        )[0];
+    let severity =
+        futureDemand > 60
+        ? "critical"
+        : futureDemand > 40
+        ? "high"
+        : "moderate";
+    document.getElementById("problemText")
+        .innerHTML =
+        `<b>${currentLocation}</b>
+        is showing <b>${severity}</b> queue pressure.
+        Current demand is approximately
+        <b>${totalPeople} citizens</b>, while AI predicts
+        demand could reach <b>${futureDemand}</b>.
+        Counter ${busiest.id} is carrying the highest load.
+        Without intervention, waiting time may increase.`;
+    /* SOLUTION 1 */
+    document.getElementById("solutionCounter")
+        .innerHTML =
+        `Prioritize <b>Counter ${selectedCounter.id}</b>
+        because it has the lowest AI score.
+        If demand rises further, activate
+        <b>Counter ${counters.length+1}</b>.`;
+    /* SOLUTION 2 */
+    document.getElementById("solutionRedirect")
+        .innerHTML =
+        `Redirect citizens from
+        <b>Counter ${busiest.id}</b> to
+        <b>Counter ${secondBest.id}</b>
+        to balance queue load.`;
+    /* SOLUTION 3 */
+    document.getElementById("solutionStaff")
+        .innerHTML =
+        `Temporarily allocate staff to
+        <b>Counter ${selectedCounter.id}</b>
+        and maintain service capacity during
+        the predicted peak.`;
+    /* IMPACT */
+    let before =
+        Math.ceil(predictedWait);
+    let after =
+        Math.max(
+            1,
+            Math.ceil(
+                predictedWait * 0.62
+            )
+        );
+    let reduction =
+        Math.round(
+            ((before-after)/before)*100
+        );
+    document.getElementById("before")
+        .innerText =
+        before+" min";
+    document.getElementById("after")
+        .innerText =
+        after+" min";
+    document.getElementById("reduction")
+        .innerText =
+        reduction+"%";
+    document.getElementById("confidence")
+        .innerText =
+        (91+Math.floor(Math.random()*7))+"%";
+    document.getElementById("aiEngine")
+        .style.display = "block";
+    document.getElementById("aiEngine")
+        .scrollIntoView({
+            behavior:"smooth",
+            block:"center"
+        });
+}
+/* =========================================================
+COUNTER DISPLAY
+========================================================= */
+function displayCounters(){
+    let grid =
+        document.getElementById("counterGrid");
+    grid.innerHTML = "";
+    counters.forEach(
+        counter => {
+        let status;
+        let className;
+        if(counter.people<=6){
+            status="LOW";
+            className="low";
+        }
+        else if(counter.people<=12){
+            status="MEDIUM";
+            className="medium";
+        }
+        else{
+            status="HIGH";
+            className="high";
+        }
+        let width =
+            Math.min(
+                counter.people*6,
+                100
+            );
+        let card =
+            document.createElement("div");
+        card.className =
+            "counter";
+        if(
+            selectedCounter &&
+            counter.id ===
+            selectedCounter.id
+        ){
+            card.classList.add("best");
+        }
+        card.innerHTML = `
+        <div class="counter-top">
+            <b>
+            🪟 Counter ${counter.id}
+            </b>
+            <span class="badge ${className}">
+            ${status}
+            </span>
+        </div>
+        <div class="people">
+            ${counter.people}
+        </div>
+        <span style="color:#8295ae;font-size:12px">
+        people waiting
+        </span>
+        <div class="progress">
+            <div
+            class="bar"
+            style="width:${width}%">
+            </div>
+        </div>
+        <p>
+        ⏱ Service time:
+        <b>${counter.serviceTime} min</b>
+        </p>
+        <p>
+        ⚙ Efficiency:
+        <b>${counter.efficiency}%</b>
+        </p>
+        <p>
+        🚀 Service rate:
+        <b>${counter.serviceRate.toFixed(2)}
+        people/min</b>
+        </p>
+        <p>
+        🕐 Predicted wait:
+        <b>${Math.ceil(counter.wait)} min</b>
+        </p>
+        ${
+            selectedCounter &&
+            counter.id ===
+            selectedCounter.id
+            ?
+            `<br>
+            <span class="green">
+            ⭐ AI RECOMMENDED
+            </span>`
+            :
+            ""
+        }
+        `;
+        grid.appendChild(card);
+    });
+}
+/* =========================================================
+WHAT-IF SIMULATOR
+========================================================= */
+function simulateWhatIf(){
+    let extra =
+        Number(
+            document.getElementById(
+                "extraPeople"
+            ).value
+        );
+    document.getElementById(
+        "extraValue"
+    ).innerText = extra;
+    if(
+        counters.length === 0
+    ){
+        document.getElementById(
+            "whatPrediction"
+        ).innerText =
+        "Run AI analysis first.";
+        return;
+    }
+    let total =
+        counters.reduce(
+            (sum,c)=>sum+c.people,
+            0
+        );
+    let future =
+        total + extra;
+    let capacity =
+        counters.reduce(
+            (sum,c)=>sum+c.serviceRate,
+            0
+        );
+    let newWait =
+        future/capacity;
+    document.getElementById(
+        "whatPrediction"
+    ).innerHTML =
+        `With <b>${extra}</b> additional citizens,
+        predicted queue demand becomes
+        <b>${future}</b> people and estimated
+        waiting pressure becomes
+        <b>${Math.ceil(newWait)} minutes</b>.`;
+    if(extra>=25){
+        document.getElementById(
+            "whatSolution"
+        ).innerHTML =
+        `🚨 <b>AI Solution:</b>
+        Activate an additional counter,
+        redirect citizens to low-load counters,
+        and temporarily increase staff capacity.`;
+    }
+    else if(extra>=10){
+        document.getElementById(
+            "whatSolution"
+        ).innerHTML =
+        `⚡ <b>AI Solution:</b>
+        Redistribute citizens across existing
+        counters before opening a new counter.`;
+    }
+    else{
+        document.getElementById(
+            "whatSolution"
+        ).innerHTML =
+        `✅ <b>AI Solution:</b>
+        Existing counter capacity is sufficient.
+        Continue monitoring queue growth.`;
+    }
+    let reduction =
+        extra>=25
+        ? 35
+        : extra>=10
+        ? 22
+        : 10;
+    document.getElementById(
+        "whatImpact"
+    ).innerHTML =
+        `📉 Expected intervention can reduce
+        waiting pressure by approximately
+        <b>${reduction}%</b>.`;
+}
+/* =========================================================
+TOKEN
+========================================================= */
+function generateToken(){
+    if(!selectedCounter){
+        alert(
+        "Run AI analysis first."
+        );
+        return;
+    }
+    let number =
+        Math.floor(
+            Math.random()*900
+        )+100;
+    let token =
+        "WL-"+selectedCounter.id+
+        "-"+number;
+    document.getElementById(
+        "tokenNumber"
+    ).innerText = token;
+    document.getElementById(
+        "tokenInfo"
+    ).innerHTML =
+        `Location:
+        <b>${currentLocation}</b><br>
+        Service:
+        <b>${currentService}</b><br>
+        Assigned Counter:
+        <b>${selectedCounter.id}</b><br>
+        Estimated wait:
+        <b>${Math.ceil(selectedCounter.wait)}
+        minutes</b>`;
+    document.getElementById(
+        "tokenCard"
+    ).style.display="block";
+    document.getElementById(
+        "tokenCard"
+    ).scrollIntoView({
+        behavior:"smooth"
+    });
+}
+/* =========================================================
+CANCEL TOKEN
+========================================================= */
+function cancelToken(){
+    document.getElementById(
+        "tokenCard"
+    ).style.display="none";
+    alert(
+    "Smart token cancelled."
+    );
+}
+/* =========================================================
+LIVE QUEUE UPDATE
+========================================================= */
+setInterval(
+function(){
+    if(
+        counters.length===0
+    ){
+        return;
+    }
+    counters.forEach(
+        c => {
+            let random =
+                Math.random();
+            if(
+                random < 0.45 &&
+                c.people > 0
+            ){
+                c.people--;
+            }
+            else if(
+                random > 0.78
+            ){
+                c.people++;
+            }
+            c.wait =
+                c.people /
+                c.serviceRate;
+        }
+    );
+    displayCounters();
+},
+12000
+);
+/* =========================================================
+INITIAL CONSOLE
+========================================================= */
+console.log(
+"AI WaitLess City — Detect → Predict → Decide → Act"
+);
+</script>
+</body>
+</html>
